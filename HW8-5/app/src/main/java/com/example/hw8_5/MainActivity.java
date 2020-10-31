@@ -1,15 +1,19 @@
 package com.example.hw8_5;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -45,6 +49,32 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+
+        //listener for the bottom navigation view
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(
+                new BottomNavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        switch(item.getItemId()){
+                            case R.id.home:
+                                Toast.makeText(MainActivity.this, "Home", Toast.LENGTH_SHORT).show();
+                                break;
+                            case R.id.weather_results:
+                                Toast.makeText(MainActivity.this, "Results", Toast.LENGTH_SHORT).show();
+                                break;
+                            case R.id.map:
+                                Toast.makeText(MainActivity.this, "Map", Toast.LENGTH_SHORT).show();
+                                break;
+                            case R.id.weather_history:
+                                Toast.makeText(MainActivity.this, "History", Toast.LENGTH_SHORT).show();
+                                break;
+                        }
+                        return true;
+                    }
+                }
+        );
     }
 
     @Override

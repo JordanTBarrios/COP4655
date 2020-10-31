@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">HW8-5</string>
+    <string name="footer">Jordan Barrios: z23430885</string>
+    <string name="results">Results</string>
+    <string name="map">Map</string>
+    <string name="history">History</string>
+    <string name="searchHint">Search Weather</string>
+    <string name="searchButton">City/ZIP</string>
+    <string name="gpsButton">GPS</string>
+    <string name="instructions">Enter city, zip, or geo coordinates. If searching by geo coordinates, press \"GPS\". Example: \"London\" or \"10001\" or \"26.27 -80.27\" or tap the microphone and say the city name</string>
+    <string name="home">Home</string>
 </resources>
