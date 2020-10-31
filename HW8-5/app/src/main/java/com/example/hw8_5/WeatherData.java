@@ -25,13 +25,13 @@ public class WeatherData {
 
     public void setLat(String l) { this.lat = l; }
 
-    public void setLon(String l) { this.lat = l; }
+    public void setLon(String l) { this.lon = l; }
 
     public void setDescription(String d){this.description = d;}
 
     public void setTemp(String t){this.temp = t;}
 
-    public void setFeelsLike(String f){this.temp = f;}
+    public void setFeelsLike(String f){this.feelsLike = f;}
 
     public void setPressure(String p){this.pressure = p;}
 

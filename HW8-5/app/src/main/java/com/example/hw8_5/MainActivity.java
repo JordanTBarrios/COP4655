@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     TextView textView;
 
     private String TAG = MainActivity.class.getSimpleName();
+    private Context context;
 
     public static final String EXTRA_MESSAGE = "com.example.hw8_5.MESSAGE";
     public static final String EXTRA_MESSAGE2 = "com.example.hw8_5.MESSAGE2";
@@ -46,6 +48,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Set context
+        context = getApplicationContext();
 
         textView = findViewById(R.id.text);
         ImageView speak = findViewById(R.id.speak);
@@ -96,6 +101,8 @@ public class MainActivity extends AppCompatActivity {
         );
     }
 
+    public static WeatherData getWeatherInstance(){ return data;}
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -113,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
 
     //if user presses "Search" button
     public void sendUserInput(View view){
-        Intent intent = new Intent (this, DisplayWeatherActivity.class);
+        //Intent intent = new Intent (this, DisplayWeatherResults.class);
         EditText inputField = (EditText) findViewById(R.id.searchInput);
         String input = inputField.getText().toString();
 
@@ -141,12 +148,13 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        startActivity(intent); //is last
+        //startActivity(intent); //is last
     }
 
     //if user presses "GPS" button
     public void sendUserGPS (View view) {
-        Intent intent = new Intent (this, DisplayWeatherActivity.class);
+
+        //Intent intent = new Intent (this, DisplayWeatherResults.class);
         EditText inputField = (EditText) findViewById(R.id.searchInput);
         String input = inputField.getText().toString();
 
@@ -164,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
         String openWeatherUrl = "https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon="+ lon +"&units=imperial&APPID=" + openWeatherKey+"";
         setWeatherData(openWeatherUrl);
 
-        startActivity(intent);
+        //startActivity(intent);
     }
 
     //check if a String is a number
@@ -182,6 +190,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setWeatherData(String url){
+        Intent intent = new Intent (this, DisplayWeatherResults.class);
+
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
 
@@ -221,6 +231,9 @@ public class MainActivity extends AppCompatActivity {
                             data.setSunrise(sys.getString("sunrise"));
                             data.setSunset(sys.getString("sunset"));
                             //locationName = name + ", " + country; //for google maps
+
+                            Intent intent = new Intent (context, DisplayWeatherResults.class);
+                            startActivity(intent); //is last
 
 
                         } catch (final JSONException e) {
