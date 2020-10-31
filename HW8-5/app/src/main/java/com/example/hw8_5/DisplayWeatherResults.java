@@ -3,6 +3,7 @@ package com.example.hw8_5;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -13,10 +14,14 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class DisplayWeatherResults extends AppCompatActivity {
 
+    private Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_weather_results);
+
+        context = getApplicationContext();
 
         //get the intent that started this activity
         Intent intent = getIntent();
@@ -70,6 +75,8 @@ public class DisplayWeatherResults extends AppCompatActivity {
                                 break;
                             case R.id.map:
                                 Toast.makeText(DisplayWeatherResults.this, "Map", Toast.LENGTH_SHORT).show();
+                                Intent mapIntent = new Intent (context, DisplayWeatherMap.class);
+                                startActivity(mapIntent); //is last
                                 break;
                             case R.id.weather_history:
                                 Toast.makeText(DisplayWeatherResults.this, "History", Toast.LENGTH_SHORT).show();
