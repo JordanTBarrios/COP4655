@@ -37,10 +37,6 @@ public class MainActivity extends AppCompatActivity {
     private String TAG = MainActivity.class.getSimpleName();
     private Context context;
 
-    public static final String EXTRA_MESSAGE = "com.example.hw8_5.MESSAGE";
-    public static final String EXTRA_MESSAGE2 = "com.example.hw8_5.MESSAGE2";
-    public static final String EXTRA_MESSAGE3 = "com.example.hw8_5.MESSAGE3";
-
     private String openWeatherKey = "130ecc705ac2dd85de148abbeff2d7ff";
     public static WeatherData data = new WeatherData();
 
@@ -51,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
 
         //Set context
         context = getApplicationContext();
-
         textView = findViewById(R.id.text);
         ImageView speak = findViewById(R.id.speak);
 
@@ -63,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                         RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
                 intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
-                intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Need to speak");
+                intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Say city name");
                 try {
                     startActivityForResult(intent, REQ_CODE);
                 } catch (ActivityNotFoundException a) {
@@ -73,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
 
         //listener for the bottom navigation view
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
@@ -111,7 +105,9 @@ public class MainActivity extends AppCompatActivity {
                 if ((resultCode == RESULT_OK) && (null != data)) {
                     ArrayList<String> result = data
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                    textView.setText(result.get(0));
+                    //textView.setText(result.get(0) + " poop");
+                    String openWeatherUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + result.get(0) + "&units=imperial&APPID=" + openWeatherKey +"";
+                    setWeatherData(openWeatherUrl);
                 }
                 break;
             }
@@ -125,30 +121,15 @@ public class MainActivity extends AppCompatActivity {
         String input = inputField.getText().toString();
 
         String openWeatherUrl;
-        //check if input is a number\
+        //check if input is a number
         //if it is, search as zip code
         if (isNum(input)){ //if zip code
             openWeatherUrl = "https://api.openweathermap.org/data/2.5/weather?zip=" + input + "&units=imperial&APPID=" + openWeatherKey +"";
             setWeatherData(openWeatherUrl);
-            /*
-            intent.putExtra(EXTRA_MESSAGE, input);
-            intent.putExtra(EXTRA_MESSAGE2, "none");
-            intent.putExtra(EXTRA_MESSAGE3, "zip");
-            startActivity(intent);
-            */
         } else { //otherwise city name
             openWeatherUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + input + "&units=imperial&APPID="+ openWeatherKey +"";
             setWeatherData(openWeatherUrl);
-            /*
-            intent.putExtra(EXTRA_MESSAGE, input);
-            intent.putExtra(EXTRA_MESSAGE2, "none");
-            intent.putExtra(EXTRA_MESSAGE3, "city");
-            startActivity(intent);
-            */
         }
-
-
-        //startActivity(intent); //is last
     }
 
     //if user presses "GPS" button
@@ -163,16 +144,8 @@ public class MainActivity extends AppCompatActivity {
         String lat = arr[0];
         String lon = arr[1];
 
-        /*
-        intent.putExtra(EXTRA_MESSAGE, lat);
-        intent.putExtra(EXTRA_MESSAGE2, lon);
-        intent.putExtra(EXTRA_MESSAGE3, "gps");
-        startActivity(intent);
-        */
         String openWeatherUrl = "https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon="+ lon +"&units=imperial&APPID=" + openWeatherKey+"";
         setWeatherData(openWeatherUrl);
-
-        //startActivity(intent);
     }
 
     //check if a String is a number
@@ -190,7 +163,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setWeatherData(String url){
-        Intent intent = new Intent (this, DisplayWeatherResults.class);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
@@ -205,8 +177,6 @@ public class MainActivity extends AppCompatActivity {
                             JSONObject coord = response.getJSONObject("coord");
                             data.setLat(coord.getString("lat"));
                             data.setLon(coord.getString("lon"));
-                            //latSearch = lat; //for google maps
-                            //lonSearch = lon; //for google maps
 
                             //description
                             JSONArray weatherArray = response.getJSONArray("weather");
@@ -230,15 +200,12 @@ public class MainActivity extends AppCompatActivity {
                             data.setCountry(sys.getString("country"));
                             data.setSunrise(sys.getString("sunrise"));
                             data.setSunset(sys.getString("sunset"));
-                            //locationName = name + ", " + country; //for google maps
 
                             //get current time
                             data.setCurrentTime(response.getString("dt"));
 
                             Intent intent = new Intent (context, DisplayWeatherResults.class);
                             startActivity(intent); //is last
-
-
                         } catch (final JSONException e) {
                             Log.e(TAG, "Json parsing error: " + e.getMessage());
                             runOnUiThread(new Runnable() {
@@ -261,6 +228,5 @@ public class MainActivity extends AppCompatActivity {
         //Access the RequestQueue through your singleton class.
         MySingleton.getInstance(this).addToRequestQueue(jsonObjectRequest);
     }
-
 
 }
