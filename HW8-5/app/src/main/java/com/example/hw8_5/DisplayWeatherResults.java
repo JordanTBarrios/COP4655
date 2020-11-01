@@ -111,7 +111,7 @@ public class DisplayWeatherResults extends AppCompatActivity {
             public void onClick(View v) {
                 String toSpeak = name.getText().toString();
                 Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
-                t1.speak(toSpeak, TextToSpeech.QUEUE_ADD, null);
+                t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
             }
         });
 
@@ -121,7 +121,7 @@ public class DisplayWeatherResults extends AppCompatActivity {
             public void onClick(View v) {
                 String toSpeak = temp.getText().toString();
                 Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
-                t1.speak(toSpeak, TextToSpeech.QUEUE_ADD, null);
+                t1.speak("Temperature: " + toSpeak, TextToSpeech.QUEUE_FLUSH, null);
             }
         });
 
@@ -131,7 +131,7 @@ public class DisplayWeatherResults extends AppCompatActivity {
             public void onClick(View v) {
                 String toSpeak = condition.getText().toString();
                 Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
-                t1.speak(toSpeak, TextToSpeech.QUEUE_ADD, null);
+                t1.speak("Condition: " + toSpeak, TextToSpeech.QUEUE_FLUSH, null);
             }
         });
 
@@ -141,7 +141,7 @@ public class DisplayWeatherResults extends AppCompatActivity {
             public void onClick(View v) {
                 String toSpeak = feelsLike.getText().toString();
                 Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
-                t1.speak(toSpeak, TextToSpeech.QUEUE_ADD, null);
+                t1.speak("Feels Like: " + toSpeak, TextToSpeech.QUEUE_FLUSH, null);
             }
         });
 
@@ -152,7 +152,7 @@ public class DisplayWeatherResults extends AppCompatActivity {
             public void onClick(View v) {
                 String toSpeak = humidity.getText().toString();
                 Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
-                t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
+                t1.speak("Humidity: " + toSpeak, TextToSpeech.QUEUE_FLUSH, null);
             }
         });
 
@@ -162,7 +162,7 @@ public class DisplayWeatherResults extends AppCompatActivity {
             public void onClick(View v) {
                 String toSpeak = pressure.getText().toString();
                 Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
-                t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
+                t1.speak("Pressure: " + toSpeak, TextToSpeech.QUEUE_FLUSH, null);
             }
         });
 
@@ -172,7 +172,7 @@ public class DisplayWeatherResults extends AppCompatActivity {
             public void onClick(View v) {
                 String toSpeak = wind.getText().toString();
                 Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
-                t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
+                t1.speak("Wind: " + toSpeak, TextToSpeech.QUEUE_FLUSH, null);
             }
         });
 
@@ -192,7 +192,7 @@ public class DisplayWeatherResults extends AppCompatActivity {
             public void onClick(View v) {
                 String toSpeak = sunrise.getText().toString();
                 Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
-                t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
+                t1.speak("Sunrise: " + toSpeak, TextToSpeech.QUEUE_FLUSH, null);
             }
         });
 
@@ -202,7 +202,7 @@ public class DisplayWeatherResults extends AppCompatActivity {
             public void onClick(View v) {
                 String toSpeak = sunset.getText().toString();
                 Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
-                t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
+                t1.speak("Sunset: " + toSpeak, TextToSpeech.QUEUE_FLUSH, null);
             }
         });
 
@@ -212,7 +212,7 @@ public class DisplayWeatherResults extends AppCompatActivity {
             public void onClick(View v) {
                 String toSpeak = visibility.getText().toString();
                 Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
-                t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
+                t1.speak("Visibility: " + toSpeak, TextToSpeech.QUEUE_FLUSH, null);
             }
         });
 
@@ -223,7 +223,7 @@ public class DisplayWeatherResults extends AppCompatActivity {
             public void onClick(View v) {
                 String toSpeak = country.getText().toString();
                 Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
-                t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
+                t1.speak("Country: " + toSpeak, TextToSpeech.QUEUE_FLUSH, null);
             }
         });
     }
