@@ -57,6 +57,8 @@ public class DisplayWeatherMap extends AppCompatActivity implements OnMapReadyCa
                                 break;
                             case R.id.weather_history:
                                 Toast.makeText(DisplayWeatherMap.this, "History", Toast.LENGTH_SHORT).show();
+                                Intent historyIntent = new Intent (context, DisplayWeatherHistory.class);
+                                startActivity(historyIntent); //is last
                                 break;
                         }
                         return true;

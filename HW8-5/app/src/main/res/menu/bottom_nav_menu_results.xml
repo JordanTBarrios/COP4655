@@ -1,28 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item
-        android:id="@+id/home"
-        android:enabled="true"
-        android:icon="@drawable/ic_home"
-        android:title="@string/home"
-        app:showAsAction="ifRoom"
-        />
+
     <item
         android:id="@+id/weather_results"
-        android:enabled="false"
+        android:enabled="true"
         android:icon="@drawable/ic_weather_results"
         android:title="@string/results"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/map"
-        android:enabled="false"
+        android:enabled="true"
         android:icon="@drawable/ic_map"
         android:title="@string/map"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/weather_history"
-        android:enabled="false"
+        android:enabled="true"
         android:icon="@drawable/ic_weather_history"
         android:title="@string/history"
         app:showAsAction="ifRoom" />

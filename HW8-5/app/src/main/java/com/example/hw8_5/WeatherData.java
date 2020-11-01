@@ -15,6 +15,7 @@ public class WeatherData {
     private String country;
     private String sunrise;
     private String sunset;
+    private String currentTime;
 
     public WeatherData(){};
 
@@ -47,6 +48,8 @@ public class WeatherData {
 
     public void setSunset(String s){this.sunset = s;}
 
+    public void setCurrentTime(String t){this.currentTime = t;}
+
     //setters
     public String getName(){return this.name;}
 
@@ -75,4 +78,6 @@ public class WeatherData {
     public String getSunrise(){return this.sunrise;}
 
     public String getSunset(){return this.sunset;}
+
+    public String getCurrentTime(){return this.currentTime;}
 }

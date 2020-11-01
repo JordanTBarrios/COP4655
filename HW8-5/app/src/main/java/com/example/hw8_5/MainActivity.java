@@ -232,6 +232,9 @@ public class MainActivity extends AppCompatActivity {
                             data.setSunset(sys.getString("sunset"));
                             //locationName = name + ", " + country; //for google maps
 
+                            //get current time
+                            data.setCurrentTime(response.getString("dt"));
+
                             Intent intent = new Intent (context, DisplayWeatherResults.class);
                             startActivity(intent); //is last
 

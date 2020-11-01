@@ -80,6 +80,8 @@ public class DisplayWeatherResults extends AppCompatActivity {
                                 break;
                             case R.id.weather_history:
                                 Toast.makeText(DisplayWeatherResults.this, "History", Toast.LENGTH_SHORT).show();
+                                Intent historyIntent = new Intent (context, DisplayWeatherHistory.class);
+                                startActivity(historyIntent); //is last
                                 break;
                         }
                         return true;
