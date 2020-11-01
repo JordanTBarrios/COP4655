@@ -32,7 +32,7 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
 
     private final int REQ_CODE = 100;
-    TextView textView;
+    private TextView textView;
 
     private String TAG = MainActivity.class.getSimpleName();
     private Context context;

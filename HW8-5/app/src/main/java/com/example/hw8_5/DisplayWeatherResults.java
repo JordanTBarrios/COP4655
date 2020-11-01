@@ -6,15 +6,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.Locale;
+
 public class DisplayWeatherResults extends AppCompatActivity {
 
     private Context context;
+    private TextToSpeech t1;
+    private TextToSpeech t2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,14 +41,14 @@ public class DisplayWeatherResults extends AppCompatActivity {
         TextView temperatureView = findViewById(R.id.temp);
 
         //Access the various cells of table
-        TextView conditionText = findViewById(R.id.conditionText);
+        final TextView conditionText = findViewById(R.id.conditionText);
         TextView feelsLikeText = findViewById(R.id.feelsLikeText);
         TextView humidityText = findViewById(R.id.humidityText);
         TextView pressureText = findViewById(R.id.pressureText);
         TextView windText = findViewById(R.id.windText);
         TextView geoCoordsText = findViewById(R.id.geoCoordsText);
         TextView sunriseText = findViewById(R.id.sunriseText);
-        TextView sunsetText = findViewById(R.id.sunsetText);
+        final TextView sunsetText = findViewById(R.id.sunsetText);
         TextView visibilityText = findViewById(R.id.visibilityText);
         TextView countryText = findViewById(R.id.countryText);
 
@@ -88,5 +95,136 @@ public class DisplayWeatherResults extends AppCompatActivity {
                     }
                 }
         );
+
+        t1=new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if(status != TextToSpeech.ERROR) {
+                    t1.setLanguage(Locale.UK);
+                }
+            }
+        });
+
+        final TextView name = findViewById(R.id.cityName);
+        name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String toSpeak = name.getText().toString();
+                Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
+                t1.speak(toSpeak, TextToSpeech.QUEUE_ADD, null);
+            }
+        });
+
+        final TextView temp = findViewById(R.id.temp);
+        temp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String toSpeak = temp.getText().toString();
+                Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
+                t1.speak(toSpeak, TextToSpeech.QUEUE_ADD, null);
+            }
+        });
+
+        final TextView condition = findViewById(R.id.conditionText);
+        condition.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String toSpeak = condition.getText().toString();
+                Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
+                t1.speak(toSpeak, TextToSpeech.QUEUE_ADD, null);
+            }
+        });
+
+        final TextView feelsLike = findViewById(R.id.feelsLikeText);
+        feelsLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String toSpeak = feelsLike.getText().toString();
+                Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
+                t1.speak(toSpeak, TextToSpeech.QUEUE_ADD, null);
+            }
+        });
+
+
+        final TextView humidity = findViewById(R.id.humidityText);
+        humidity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String toSpeak = humidity.getText().toString();
+                Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
+                t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
+            }
+        });
+
+        final TextView pressure = findViewById(R.id.pressureText);
+        pressure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String toSpeak = pressure.getText().toString();
+                Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
+                t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
+            }
+        });
+
+        final TextView wind = findViewById(R.id.windText);
+        wind.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String toSpeak = wind.getText().toString();
+                Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
+                t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
+            }
+        });
+
+        final TextView geoCoords = findViewById(R.id.geoCoordsText);
+        geoCoords.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String toSpeak = geoCoords.getText().toString();
+                Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
+                t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
+            }
+        });
+
+        final TextView sunrise = findViewById(R.id.sunriseText);
+        sunrise.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String toSpeak = sunrise.getText().toString();
+                Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
+                t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
+            }
+        });
+
+        final TextView sunset = findViewById(R.id.sunsetText);
+        sunset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String toSpeak = sunset.getText().toString();
+                Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
+                t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
+            }
+        });
+
+        final TextView visibility = findViewById(R.id.visibilityText);
+        visibility.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String toSpeak = visibility.getText().toString();
+                Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
+                t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
+            }
+        });
+
+
+        final TextView country = findViewById(R.id.countryText);
+        country.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String toSpeak = country.getText().toString();
+                Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
+                t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
+            }
+        });
     }
 }
