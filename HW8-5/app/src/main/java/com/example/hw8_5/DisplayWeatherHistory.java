@@ -49,8 +49,11 @@ public class DisplayWeatherHistory extends AppCompatActivity {
 
         context = getApplicationContext();
 
-        //new GetWeathers().execute();
-        doInBackgorund();
+        //get weather history
+        doInBackground();
+
+        //display list
+        postExecute();
 
         //listener for the bottom navigation view
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
@@ -59,9 +62,6 @@ public class DisplayWeatherHistory extends AppCompatActivity {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch(item.getItemId()){
-                            case R.id.home:
-                                Toast.makeText(DisplayWeatherHistory.this, "Home", Toast.LENGTH_SHORT).show();
-                                break;
                             case R.id.weather_results:
                                 Toast.makeText(DisplayWeatherHistory.this, "Results", Toast.LENGTH_SHORT).show();
                                 Intent resultsIntent = new Intent (context, DisplayWeatherResults.class);
@@ -81,90 +81,17 @@ public class DisplayWeatherHistory extends AppCompatActivity {
                 }
         );
 
-        postExecute();
     }
-/*
-    private class GetWeathers extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            Toast.makeText(DisplayWeatherHistory.this,"Json Data is downloading",Toast.LENGTH_SHORT).show();
-        }
 
-        @Override
-        protected Void doInBackground(Void... arg0) {
-            int searchTime = Integer.parseInt(data.getCurrentTime());
-            String lat = data.getLat();
-            String lon = data.getLon();
-
-            for (int i = 0; i < 5; i++){
-                final int day = i;
-
-                String historyUrl = "https://api.openweathermap.org/data/2.5/onecall/timemachine?lat="+ lat +"&lon="+ lon +"&dt="+ searchTime +"&units=imperial&appid="+ openWeatherKey +"";
-
-                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, historyUrl, null,
-                        new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                try {
-                                    //temp hash map for single day weather
-                                    HashMap<String, String> weather = new HashMap<>();
-
-                                    JSONObject current = response.getJSONObject("current");
-                                    JSONArray w = current.getJSONArray("weather");
-                                    JSONObject obj = w.getJSONObject(0);
-
-                                    weather.put("day", day + " days ago");
-                                    weather.put("condition", obj.getString("main"));
-                                    weather.put("temp",  current.getString("temp") + "F");
-                                    weather.put("humidity", current.getString("humidity")+ "%");
-
-                                    weatherList.add(weather);
-
-                                } catch (final JSONException e) {
-                                    Log.e(TAG, "Json parsing error: " + e.getMessage());
-                                    runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            Toast.makeText(getApplicationContext(),
-                                                    "Json parsing error: " + e.getMessage(),
-                                                    Toast.LENGTH_LONG).show();
-                                        }
-                                    });
-                                }
-                            }
-                        }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        //TODO: Handle error
-                    }
-                });
-
-                //Access the RequestQueue through your singleton class.
-                MySingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
-                searchTime = searchTime - 86400; //subtract a day
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            super.onPostExecute(result);
-            ListAdapter adapter = new SimpleAdapter(DisplayWeatherHistory.this, weatherList,
-                    R.layout.list_item, new String[]{ "day","condition","temp","humidity"},
-                    new int[]{R.id.day, R.id.condition, R.id.temp, R.id.humidity});
-            lv.setAdapter(adapter);
-        }
-    }
-*/
-    public void doInBackgorund(){
+    public void doInBackground(){
         int searchTime = Integer.parseInt(data.getCurrentTime());
         String lat = data.getLat();
         String lon = data.getLon();
 
         for (int i = 0; i < 5; i++){
-            final int day = i;
+            final int day = i+1;
+
+            searchTime = searchTime - 86400; //go back a day in time
 
             String historyUrl = "https://api.openweathermap.org/data/2.5/onecall/timemachine?lat="+ lat +"&lon="+ lon +"&dt="+ searchTime +"&units=imperial&appid="+ openWeatherKey +"";
 
@@ -208,11 +135,11 @@ public class DisplayWeatherHistory extends AppCompatActivity {
 
             //Access the RequestQueue through your singleton class.
             MySingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
-            searchTime = searchTime - 86400; //subtract a day
         }
 
     }
 
+    //display the data in a list format
     public void postExecute() {
         ListAdapter adapter = new SimpleAdapter(DisplayWeatherHistory.this, weatherList,
                 R.layout.list_item, new String[]{ "day","condition","temp","humidity"},

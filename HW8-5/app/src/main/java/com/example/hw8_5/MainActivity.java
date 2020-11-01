@@ -1,6 +1,5 @@
 package com.example.hw8_5;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ActivityNotFoundException;
@@ -9,7 +8,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -69,30 +67,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //listener for the bottom navigation view
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setOnNavigationItemSelectedListener(
-                new BottomNavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        switch(item.getItemId()){
-                            case R.id.home:
-                                Toast.makeText(MainActivity.this, "Home", Toast.LENGTH_SHORT).show();
-                                break;
-                            case R.id.weather_results:
-                                Toast.makeText(MainActivity.this, "Results", Toast.LENGTH_SHORT).show();
-                                break;
-                            case R.id.map:
-                                Toast.makeText(MainActivity.this, "Map", Toast.LENGTH_SHORT).show();
-                                break;
-                            case R.id.weather_history:
-                                Toast.makeText(MainActivity.this, "History", Toast.LENGTH_SHORT).show();
-                                break;
-                        }
-                        return true;
-                    }
-                }
-        );
     }
 
     public static WeatherData getWeatherInstance(){ return data;}
@@ -105,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
                 if ((resultCode == RESULT_OK) && (null != data)) {
                     ArrayList<String> result = data
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                    //textView.setText(result.get(0) + " poop");
                     String openWeatherUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + result.get(0) + "&units=imperial&APPID=" + openWeatherKey +"";
                     setWeatherData(openWeatherUrl);
                 }
@@ -121,8 +94,8 @@ public class MainActivity extends AppCompatActivity {
         String input = inputField.getText().toString();
 
         String openWeatherUrl;
+
         //check if input is a number
-        //if it is, search as zip code
         if (isNum(input)){ //if zip code
             openWeatherUrl = "https://api.openweathermap.org/data/2.5/weather?zip=" + input + "&units=imperial&APPID=" + openWeatherKey +"";
             setWeatherData(openWeatherUrl);
@@ -163,7 +136,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setWeatherData(String url){
-
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
 
@@ -201,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
                             data.setSunrise(sys.getString("sunrise"));
                             data.setSunset(sys.getString("sunset"));
 
-                            //get current time
+                            //get current time, used for weather history
                             data.setCurrentTime(response.getString("dt"));
 
                             Intent intent = new Intent (context, DisplayWeatherResults.class);
@@ -228,5 +200,4 @@ public class MainActivity extends AppCompatActivity {
         //Access the RequestQueue through your singleton class.
         MySingleton.getInstance(this).addToRequestQueue(jsonObjectRequest);
     }
-
 }

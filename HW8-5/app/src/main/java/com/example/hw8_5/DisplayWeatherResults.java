@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,7 +20,6 @@ public class DisplayWeatherResults extends AppCompatActivity {
 
     private Context context;
     private TextToSpeech t1;
-    private TextToSpeech t2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,24 +31,25 @@ public class DisplayWeatherResults extends AppCompatActivity {
         //get the intent that started this activity
         Intent intent = getIntent();
 
+        //get weather data, which was set in main activity
         WeatherData data = MainActivity.getWeatherInstance();
 
         //Display weather information
         //Access the various views
-        TextView cityNameView = findViewById(R.id.cityName);
-        TextView temperatureView = findViewById(R.id.temp);
+        final TextView cityNameView = findViewById(R.id.cityName);
+        final TextView temperatureView = findViewById(R.id.temp);
 
         //Access the various cells of table
         final TextView conditionText = findViewById(R.id.conditionText);
-        TextView feelsLikeText = findViewById(R.id.feelsLikeText);
-        TextView humidityText = findViewById(R.id.humidityText);
-        TextView pressureText = findViewById(R.id.pressureText);
-        TextView windText = findViewById(R.id.windText);
-        TextView geoCoordsText = findViewById(R.id.geoCoordsText);
-        TextView sunriseText = findViewById(R.id.sunriseText);
+        final TextView feelsLikeText = findViewById(R.id.feelsLikeText);
+        final TextView humidityText = findViewById(R.id.humidityText);
+        final TextView pressureText = findViewById(R.id.pressureText);
+        final TextView windText = findViewById(R.id.windText);
+        final TextView geoCoordsText = findViewById(R.id.geoCoordsText);
+        final TextView sunriseText = findViewById(R.id.sunriseText);
         final TextView sunsetText = findViewById(R.id.sunsetText);
-        TextView visibilityText = findViewById(R.id.visibilityText);
-        TextView countryText = findViewById(R.id.countryText);
+        final TextView visibilityText = findViewById(R.id.visibilityText);
+        final TextView countryText = findViewById(R.id.countryText);
 
         //set values in table
         cityNameView.setText(data.getName());
@@ -74,9 +73,6 @@ public class DisplayWeatherResults extends AppCompatActivity {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch(item.getItemId()){
-                            case R.id.home:
-                                Toast.makeText(DisplayWeatherResults.this, "Home", Toast.LENGTH_SHORT).show();
-                                break;
                             case R.id.weather_results:
                                 Toast.makeText(DisplayWeatherResults.this, "Results", Toast.LENGTH_SHORT).show();
                                 break;
@@ -96,6 +92,7 @@ public class DisplayWeatherResults extends AppCompatActivity {
                 }
         );
 
+        //set text-to-speech
         t1=new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
@@ -105,123 +102,110 @@ public class DisplayWeatherResults extends AppCompatActivity {
             }
         });
 
-        final TextView name = findViewById(R.id.cityName);
-        name.setOnClickListener(new View.OnClickListener() {
+        //set the listeners for text-to-speech
+        cityNameView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String toSpeak = name.getText().toString();
+                String toSpeak = cityNameView.getText().toString();
                 Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
                 t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
             }
         });
 
-        final TextView temp = findViewById(R.id.temp);
-        temp.setOnClickListener(new View.OnClickListener() {
+        temperatureView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String toSpeak = temp.getText().toString();
+                String toSpeak = temperatureView.getText().toString();
                 Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
                 t1.speak("Temperature: " + toSpeak, TextToSpeech.QUEUE_FLUSH, null);
             }
         });
 
-        final TextView condition = findViewById(R.id.conditionText);
-        condition.setOnClickListener(new View.OnClickListener() {
+        conditionText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String toSpeak = condition.getText().toString();
+                String toSpeak = conditionText.getText().toString();
                 Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
                 t1.speak("Condition: " + toSpeak, TextToSpeech.QUEUE_FLUSH, null);
             }
         });
 
-        final TextView feelsLike = findViewById(R.id.feelsLikeText);
-        feelsLike.setOnClickListener(new View.OnClickListener() {
+        feelsLikeText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String toSpeak = feelsLike.getText().toString();
+                String toSpeak = feelsLikeText.getText().toString();
                 Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
                 t1.speak("Feels Like: " + toSpeak, TextToSpeech.QUEUE_FLUSH, null);
             }
         });
 
-
-        final TextView humidity = findViewById(R.id.humidityText);
-        humidity.setOnClickListener(new View.OnClickListener() {
+        humidityText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String toSpeak = humidity.getText().toString();
+                String toSpeak = humidityText.getText().toString();
                 Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
                 t1.speak("Humidity: " + toSpeak, TextToSpeech.QUEUE_FLUSH, null);
             }
         });
 
-        final TextView pressure = findViewById(R.id.pressureText);
-        pressure.setOnClickListener(new View.OnClickListener() {
+        pressureText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String toSpeak = pressure.getText().toString();
+                String toSpeak = pressureText.getText().toString();
                 Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
                 t1.speak("Pressure: " + toSpeak, TextToSpeech.QUEUE_FLUSH, null);
             }
         });
 
-        final TextView wind = findViewById(R.id.windText);
-        wind.setOnClickListener(new View.OnClickListener() {
+        windText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String toSpeak = wind.getText().toString();
+                String toSpeak = windText.getText().toString();
                 Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
                 t1.speak("Wind: " + toSpeak, TextToSpeech.QUEUE_FLUSH, null);
             }
         });
 
-        final TextView geoCoords = findViewById(R.id.geoCoordsText);
-        geoCoords.setOnClickListener(new View.OnClickListener() {
+        geoCoordsText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String toSpeak = geoCoords.getText().toString();
+                String toSpeak = geoCoordsText.getText().toString();
                 Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
                 t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
             }
         });
 
-        final TextView sunrise = findViewById(R.id.sunriseText);
-        sunrise.setOnClickListener(new View.OnClickListener() {
+        sunriseText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String toSpeak = sunrise.getText().toString();
+                String toSpeak = sunriseText.getText().toString();
                 Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
                 t1.speak("Sunrise: " + toSpeak, TextToSpeech.QUEUE_FLUSH, null);
             }
         });
 
-        final TextView sunset = findViewById(R.id.sunsetText);
-        sunset.setOnClickListener(new View.OnClickListener() {
+        sunsetText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String toSpeak = sunset.getText().toString();
+                String toSpeak = sunsetText.getText().toString();
                 Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
                 t1.speak("Sunset: " + toSpeak, TextToSpeech.QUEUE_FLUSH, null);
             }
         });
 
-        final TextView visibility = findViewById(R.id.visibilityText);
-        visibility.setOnClickListener(new View.OnClickListener() {
+        visibilityText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String toSpeak = visibility.getText().toString();
+                String toSpeak = visibilityText.getText().toString();
                 Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
                 t1.speak("Visibility: " + toSpeak, TextToSpeech.QUEUE_FLUSH, null);
             }
         });
 
-
-        final TextView country = findViewById(R.id.countryText);
-        country.setOnClickListener(new View.OnClickListener() {
+        countryText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String toSpeak = country.getText().toString();
+                String toSpeak = countryText.getText().toString();
                 Toast.makeText(getApplicationContext(), toSpeak,Toast.LENGTH_SHORT).show();
                 t1.speak("Country: " + toSpeak, TextToSpeech.QUEUE_FLUSH, null);
             }

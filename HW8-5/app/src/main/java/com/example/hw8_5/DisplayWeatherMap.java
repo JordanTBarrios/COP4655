@@ -51,9 +51,6 @@ public class DisplayWeatherMap extends AppCompatActivity implements OnMapReadyCa
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch(item.getItemId()){
-                            case R.id.home:
-                                Toast.makeText(DisplayWeatherMap.this, "Home", Toast.LENGTH_SHORT).show();
-                                break;
                             case R.id.weather_results:
                                 Toast.makeText(DisplayWeatherMap.this, "Results", Toast.LENGTH_SHORT).show();
                                 Intent resultsIntent = new Intent (context, DisplayWeatherResults.class);
@@ -95,13 +92,13 @@ public class DisplayWeatherMap extends AppCompatActivity implements OnMapReadyCa
             * need to define the supported x, y range at each zoom level.
             */
             private boolean checkTileExists(int x, int y, int zoom) {
-                int minZoom = 12;
+                int minZoom = 1;
                 int maxZoom = 16;
                 return (zoom >= minZoom && zoom <= maxZoom);
             }
         };
-        //mMap = googleMap;
 
+        //get weather data, which was set in main activity
         WeatherData data = MainActivity.getWeatherInstance();
 
         //convert latSearch and lonSearch String to double
@@ -111,9 +108,8 @@ public class DisplayWeatherMap extends AppCompatActivity implements OnMapReadyCa
         // Add a marker and move the camera
         LatLng location = new LatLng(latitude, longitude);
         googleMap.addMarker(new MarkerOptions().position(location).title(data.getName() + ", " + data.getCountry()));
-        //googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 8.0f));
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(location));
         googleMap.moveCamera(CameraUpdateFactory.zoomTo(5));
-        TileOverlay tileOverlay = googleMap.addTileOverlay(new TileOverlayOptions().tileProvider(tileProvider));
+        TileOverlay tileOverlay = googleMap.addTileOverlay(new TileOverlayOptions().tileProvider(tileProvider)); //add tile overlay
     }
 }
