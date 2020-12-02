@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">COP4655YelpApp</string>
+    <string name="SignInButton">Sign In</string>
+    <string name="SignUpButton">Sign Up</string>
+    <string name="Header">My Yelp App</string>
+    <string name="SearchField">Search</string>
+    <string name="LocationField">Location</string>
+    <string name="SubmitButton">Submit</string>
+</resources>
