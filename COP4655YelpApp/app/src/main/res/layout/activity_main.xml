@@ -18,6 +18,7 @@
         android:layout_marginLeft="161dp"
         android:layout_marginTop="106dp"
         android:text="@string/SignInButton"
+        android:onClick="onSignInClick"
         tools:layout_editor_absoluteY="123dp" />
 
     <Button

@@ -6,4 +6,8 @@
     <string name="SearchField">Search</string>
     <string name="LocationField">Location</string>
     <string name="SubmitButton">Submit</string>
+    <string name="HomeIcon">Home</string>
+    <string name="MapIcon">Map</string>
+    <string name="ListIcon">List</string>
+    <string name="MoreIcon">More</string>
 </resources>
