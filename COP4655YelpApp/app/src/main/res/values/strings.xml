@@ -10,4 +10,8 @@
     <string name="MapIcon">Map</string>
     <string name="ListIcon">List</string>
     <string name="MoreIcon">More</string>
+    <string name="MapHeader">Nearby Locations</string>
+    <string name="ListHeader">Locations List</string>
+    <string name="DetailHeader">Detailed Info</string>
+    <string name="FavoritesHeader">Favorites</string>
 </resources>
