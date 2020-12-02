@@ -12,6 +12,9 @@
         <activity android:name=".FavoritesActivity"></activity>
         <activity android:name=".DetailsActivity" />
         <activity android:name=".ListActivity" />
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyDv9xQ24JCILCbVKR6Ki7epfQjnHifwdw8" />
         <activity android:name=".MapActivity" />
         <activity android:name=".SearchActivity" />
         <activity android:name=".MainActivity">

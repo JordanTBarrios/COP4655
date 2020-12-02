@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onSignInClick(View view){
-        Intent SearchIntent = new Intent (context, SearchActivity.class);
+        Intent SearchIntent = new Intent (context, MapActivity.class);
         startActivity(SearchIntent);
     }
 
