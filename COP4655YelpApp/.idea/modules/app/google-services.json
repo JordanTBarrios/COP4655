@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1037212829282",
+    "firebase_url": "https://oauthtest-2d312.firebaseio.com",
+    "project_id": "oauthtest-2d312",
+    "storage_bucket": "oauthtest-2d312.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1037212829282:android:22953441b29b8688bb333b",
+        "android_client_info": {
+          "package_name": "com.example.cop4655yelpapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1037212829282-lcjj136t9ne9fq96pdnbth68m4ckqijg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.cop4655yelpapp",
+            "certificate_hash": "ca5b98a85feb4ee92c5672463d1ef26e0eda5db4"
+          }
+        },
+        {
+          "client_id": "1037212829282-4fra8k5qfi2smk16cp2idoh86hef48mh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCDteoypjzFLGd0vtd27UDCkAUaWgoxEik"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1037212829282-4fra8k5qfi2smk16cp2idoh86hef48mh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
