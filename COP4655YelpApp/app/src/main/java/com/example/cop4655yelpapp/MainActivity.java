@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         //updateUI(account);
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null){
-            Intent intent = new Intent(getApplicationContext(), MapActivity.class);
+            Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
             startActivity(intent);
         }
         //updateUI(currentUser);
@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Intent intent = new Intent(getApplicationContext(), MapActivity.class);
+                            Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
                             startActivity(intent);
 
                         } else {

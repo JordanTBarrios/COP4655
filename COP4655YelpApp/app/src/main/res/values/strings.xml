@@ -14,4 +14,6 @@
     <string name="ListHeader">Locations List</string>
     <string name="DetailHeader">Detailed Info</string>
     <string name="FavoritesHeader">Favorites</string>
+    <string name="Open">Open</string>
+    <string name="Close">Close</string>
 </resources>

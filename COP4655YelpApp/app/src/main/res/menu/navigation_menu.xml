@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/signOut_drawer_item"
+        android:icon="@drawable/ic_signout"
+        android:title="Sign Out"/>
+    <item android:id="@+id/favorites_drawer_item"
+        android:icon="@drawable/ic_favorite"
+        android:title="Favorites"/>
+</menu>

@@ -1,7 +1,9 @@
 package com.example.cop4655yelpapp;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.ClipData;
 import android.content.Intent;
@@ -18,18 +20,61 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.TileOverlay;
 import com.google.android.gms.maps.model.TileOverlayOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
+
+    private DrawerLayout dl;
+    private ActionBarDrawerToggle t;
+    private NavigationView nv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
+        //google maps fragment
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        //popup drawer navigation
+        dl = (DrawerLayout)findViewById(R.id.activity_map);
+        t = new ActionBarDrawerToggle(this, dl, R.string.Open, R.string.Close);
+
+        dl.addDrawerListener(t);
+        t.syncState();
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+
+        nv = (NavigationView)findViewById(R.id.nv);
+        nv.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int id = item.getItemId();
+                switch(id)
+                {
+                    case R.id.signOut_drawer_item:
+                        Toast.makeText(MapActivity.this, "Sign out",Toast.LENGTH_SHORT).show();
+                        FirebaseAuth.getInstance().signOut();
+                        Intent intent = new Intent (getApplicationContext(), MainActivity.class);
+                        startActivity(intent); //is last
+                        break;
+                    case R.id.favorites_drawer_item:
+                        Toast.makeText(MapActivity.this, "Favorites",Toast.LENGTH_SHORT).show();break;
+                    default:
+                        return true;
+                }
+
+
+                return true;
+
+            }
+        });
+
 
         //listener for the bottom navigation view
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
@@ -46,20 +91,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                                 break;
 
                                  */
+                                break;
                             case R.id.map:
                                 /*
                                 Toast.makeText(DisplayWeatherMap.this, "Map", Toast.LENGTH_SHORT).show();
                                 break;
 
                                  */
-                            case R.id.more_icon:
-                                //Intent historyIntent = new Intent (getApplicationContext(), DisplayWeatherHistory.class);
-                                //startActivity(historyIntent); //is last
-                                //MenuItem logout = findViewById(R.id.more_icon);
-                                FirebaseAuth.getInstance().signOut();
-                                Intent intent = new Intent (getApplicationContext(), MainActivity.class);
-                                startActivity(intent); //is last
-
                                 break;
                         }
                         return true;
@@ -85,6 +123,16 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(location));
         googleMap.moveCamera(CameraUpdateFactory.zoomTo(5));
         //TileOverlay tileOverlay = googleMap.addTileOverlay(new TileOverlayOptions().tileProvider(tileProvider)); //add tile overlay
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if(t.onOptionsItemSelected(item))
+            return true;
+
+        return super.onOptionsItemSelected(item);
     }
 
 }
