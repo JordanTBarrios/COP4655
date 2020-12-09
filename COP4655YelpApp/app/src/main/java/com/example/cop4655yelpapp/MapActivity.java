@@ -64,7 +64,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                         startActivity(intent); //is last
                         break;
                     case R.id.favorites_drawer_item:
-                        Toast.makeText(MapActivity.this, "Favorites",Toast.LENGTH_SHORT).show();break;
+                        Toast.makeText(MapActivity.this, "Favorites",Toast.LENGTH_SHORT).show();
+                        //go to favorites activity
+                        Intent favIntent = new Intent (getApplicationContext(), FavoritesActivity.class);
+                        startActivity(favIntent);
+                        break;
                     default:
                         return true;
                 }
@@ -83,21 +87,30 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch(item.getItemId()){
-                            case R.id.home:
-                                /*
-                                Toast.makeText(DisplayWeatherMap.this, "Results", Toast.LENGTH_SHORT).show();
-                                Intent resultsIntent = new Intent (context, DisplayWeatherResults.class);
-                                startActivity(resultsIntent); //is last
-                                break;
+                            case R.id.home_icon:
 
-                                 */
+                                //Toast.makeText(DisplayWeatherMap.this, "Results", Toast.LENGTH_SHORT).show();
+
+                                //go to search activity
+                                Intent searchIntent = new Intent (getApplicationContext(), SearchActivity.class);
+                                startActivity(searchIntent);
+                                //break;
                                 break;
-                            case R.id.map:
+                            case R.id.map_icon:
                                 /*
                                 Toast.makeText(DisplayWeatherMap.this, "Map", Toast.LENGTH_SHORT).show();
                                 break;
 
                                  */
+                                //go to map activity
+                                Toast.makeText(MapActivity.this, "Already on Map", Toast.LENGTH_SHORT).show();
+
+                                break;
+                            case R.id.list_view_icon:
+
+                                //go to list activity
+                                Intent listIntent = new Intent (getApplicationContext(), ListActivity.class);
+                                startActivity(listIntent);
                                 break;
                         }
                         return true;

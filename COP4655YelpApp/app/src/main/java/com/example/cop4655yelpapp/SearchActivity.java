@@ -22,6 +22,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -77,7 +78,11 @@ public class SearchActivity extends AppCompatActivity {
                         startActivity(intent); //is last
                         break;
                     case R.id.favorites_drawer_item:
-                        Toast.makeText(SearchActivity.this, "Favorites",Toast.LENGTH_SHORT).show();break;
+                        Toast.makeText(SearchActivity.this, "Favorites",Toast.LENGTH_SHORT).show();
+                        //go to favorites activity
+                        Intent favIntent = new Intent (getApplicationContext(), FavoritesActivity.class);
+                        startActivity(favIntent);
+                        break;
                     default:
                         return true;
                 }
@@ -90,6 +95,61 @@ public class SearchActivity extends AppCompatActivity {
 
 
 
+        //listener for the bottom navigation view
+        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(
+                new BottomNavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        switch(item.getItemId()){
+                            case R.id.home_icon:
+
+                                //Toast.makeText(DisplayWeatherMap.this, "Results", Toast.LENGTH_SHORT).show();
+
+                                //go to search activity
+                                Toast.makeText(SearchActivity.this, "Already on Search", Toast.LENGTH_SHORT).show();
+                                //break;
+                                break;
+                            case R.id.map_icon:
+                                /*
+                                Toast.makeText(DisplayWeatherMap.this, "Map", Toast.LENGTH_SHORT).show();
+                                break;
+
+                                 */
+                                //go to map activity
+                                //Intent mapIntent = new Intent (getApplicationContext(), MapActivity.class);
+                                //startActivity(mapIntent);
+                                //Toast.makeText(MapActivity.this, "Already on Map", Toast.LENGTH_SHORT).show();
+
+                                //go to map activity
+                                LinkedList<LocationData> d1 = SearchActivity.getLocationList();
+                                if (d1.isEmpty()) {
+                                    Toast.makeText(SearchActivity.this, "Please search first", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Intent mapIntent = new Intent (getApplicationContext(), MapActivity.class);
+                                    startActivity(mapIntent);
+                                }
+
+                                break;
+                            case R.id.list_view_icon:
+
+                                //go to list activity
+                                //Intent listIntent = new Intent (getApplicationContext(), ListActivity.class);
+                                //startActivity(listIntent);
+                                //go to list activity
+                                LinkedList<LocationData> d2 = SearchActivity.getLocationList();
+                                if (d2.isEmpty()) {
+                                    Toast.makeText(SearchActivity.this, "Please search first", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Intent listIntent = new Intent (getApplicationContext(), ListActivity.class);
+                                    startActivity(listIntent);
+                                }
+                                break;
+                        }
+                        return true;
+                    }
+                }
+        );
     }
 
     public static LinkedList<LocationData> getLocationList(){ return data; }
