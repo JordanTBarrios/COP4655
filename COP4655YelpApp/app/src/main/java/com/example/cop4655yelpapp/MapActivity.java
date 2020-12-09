@@ -23,6 +23,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.LinkedList;
+
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private DrawerLayout dl;
@@ -38,6 +40,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+
 
         //popup drawer navigation
         dl = (DrawerLayout)findViewById(R.id.activity_map);
@@ -78,6 +82,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
             }
         });
+
+
 
 
         //listener for the bottom navigation view
@@ -126,15 +132,28 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         //get weather data, which was set in main activity
         //WeatherData data = MainActivity.getWeatherInstance();
 
-        //convert latSearch and lonSearch String to double
-        double latitude = Double.parseDouble("27.27");
-        double longitude = Double.parseDouble("-80.27");
+        LinkedList<LocationData> list = SearchActivity.getLocationList();
+
+        double latitude;
+        double longitude;
+        LatLng location = new LatLng(0, 0);
+
+        //convert lat and lon strings to doubles
+        for (int i = 0; i < list.size(); i++){
+            latitude = list.get(i).getLat();
+            longitude = list.get(i).getLon();
+
+            // get location and add marker
+            location = new LatLng(latitude, longitude);
+            googleMap.addMarker(new MarkerOptions().position(location).title(list.get(i).getName()));
+        }
 
         // Add a marker and move the camera
-        LatLng location = new LatLng(latitude, longitude);
+        //LatLng location = new LatLng(latitude, longitude);
+
         //googleMap.addMarker(new MarkerOptions().position(location).title(data.getName() + ", " + data.getCountry()));
+        googleMap.moveCamera(CameraUpdateFactory.zoomTo(13));
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(location));
-        googleMap.moveCamera(CameraUpdateFactory.zoomTo(5));
         //TileOverlay tileOverlay = googleMap.addTileOverlay(new TileOverlayOptions().tileProvider(tileProvider)); //add tile overlay
     }
 
