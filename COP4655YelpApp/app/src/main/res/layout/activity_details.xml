@@ -12,6 +12,70 @@
         tools:context=".MapActivity">
 
 
+        <TextView
+            android:id="@+id/isClosedTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/addressTV"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="22dp"
+            android:layout_marginEnd="29dp"
+            android:layout_marginRight="29dp"
+            android:layout_marginBottom="5dp"
+            android:gravity="center"
+            android:text="Open" />
+
+        <TextView
+            android:id="@+id/distanceTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/addressTV"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginStart="26dp"
+            android:layout_marginLeft="26dp"
+            android:layout_marginTop="22dp"
+            android:layout_marginBottom="5dp"
+            android:gravity="center"
+            android:text="distance" />
+
+        <TextView
+            android:id="@+id/addressTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/nameTV"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginStart="2dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginTop="70dp"
+            android:gravity="center"
+            android:text="Address 123 street" />
+
+        <TextView
+            android:id="@+id/ratingTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/nameTV"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="36dp"
+            android:layout_marginRight="36dp"
+            android:gravity="center"
+            android:text="rating" />
+
+        <TextView
+            android:id="@+id/nameTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/locationImageView"
+            android:layout_marginTop="21dp"
+            android:text="name"
+            android:textColor="@color/black"
+            android:textSize="24sp" />
+
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation"
             android:layout_width="550dp"
@@ -31,13 +95,77 @@
             app:menu="@menu/bottom_nav_menu" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/listHeader"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginTop="0dp"
             android:text="@string/DetailHeader"
             android:textSize="24sp" />
+
+        <ImageView
+            android:id="@+id/locationImageView"
+            android:layout_width="match_parent"
+            android:layout_height="224dp"
+            android:layout_below="@+id/listHeader"
+            android:layout_marginTop="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+        <TextView
+            android:id="@+id/reviewsTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/nameTV"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginStart="45dp"
+            android:layout_marginLeft="45dp"
+            android:layout_marginTop="34dp"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/phoneTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/addressTV"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="50dp"
+            android:layout_marginEnd="173dp"
+            android:layout_marginRight="173dp"
+            android:text="TextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/websiteButton"
+            android:layout_width="308dp"
+            android:layout_height="36dp"
+            android:layout_below="@+id/phoneTV"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="41dp"
+            android:layout_marginRight="41dp"
+            android:onClick="onWebsiteClick"
+            android:text="@string/WebsiteButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/favoriteButton"
+            android:layout_width="305dp"
+            android:layout_height="33dp"
+            android:layout_below="@+id/websiteButton"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginStart="64dp"
+            android:layout_marginLeft="64dp"
+            android:layout_marginTop="13dp"
+            android:onClick="onAddFavoriteClick"
+            android:text="@string/AddFavoriteButton" />
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

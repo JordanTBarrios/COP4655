@@ -143,6 +143,8 @@ public class SearchActivity extends AppCompatActivity {
 
                     //main array
                     JSONArray businessesArray = response.getJSONArray("businesses");
+                    
+                    data.clear();
 
                     for (int i = 0; i < 5; i++) {
                         LocationData aLocation = new LocationData();//individual location

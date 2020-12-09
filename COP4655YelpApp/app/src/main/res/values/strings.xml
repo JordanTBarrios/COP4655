@@ -16,4 +16,6 @@
     <string name="FavoritesHeader">Favorites</string>
     <string name="Open">Open</string>
     <string name="Close">Close</string>
+    <string name="WebsiteButton">Visit Website</string>
+    <string name="AddFavoriteButton">Add to Favorites</string>
 </resources>
