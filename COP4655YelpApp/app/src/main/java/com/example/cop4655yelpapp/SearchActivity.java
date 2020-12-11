@@ -206,7 +206,7 @@ public class SearchActivity extends AppCompatActivity {
                     
                     data.clear();
 
-                    for (int i = 0; i < 5; i++) {
+                    for (int i = 0; i < 10; i++) {
                         LocationData aLocation = new LocationData();//individual location
 
                         //ith business in the response
@@ -272,10 +272,11 @@ public class SearchActivity extends AppCompatActivity {
                 System.out.println(error);
             }
         }) {
-            //This is for Headers If You Needed
+            //Bearer token header
             @Override
             public Map<String,String> getHeaders() throws AuthFailureError {
                 Map<String,String> params = new HashMap<>();
+                //need space after "bearer" else app will crash
                 params.put("Authorization","bearer " + ACCESS_TOKEN);
                 return params;
             }

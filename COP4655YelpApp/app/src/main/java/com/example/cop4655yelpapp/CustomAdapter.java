@@ -6,10 +6,17 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.LinkedList;
 
@@ -17,6 +24,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
     private LinkedList<LocationData> localData;
     Context orgContext;
+    private int listItemLayout;
+    private FirebaseFirestore myDatabase = FirebaseFirestore.getInstance();
 
     /**
      * Provide a reference to the type of views that you are using
@@ -29,6 +38,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         private final TextView distanceView;
         private final TextView isClosedView;
         private final RelativeLayout listLayout;
+        private Button deleteButton;
 
         public ViewHolder(View view){
             super(view);
@@ -40,6 +50,10 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
             distanceView = (TextView) view.findViewById(R.id.distanceText);
             isClosedView = (TextView) view.findViewById(R.id.isClosedText);
             listLayout = view.findViewById(R.id.listLayout);
+            //only if delete button exists, will it be initialized
+            if (view.findViewById(R.id.deleteButton) != null){
+                deleteButton = view.findViewById(R.id.deleteButton);
+            }
         }
 
         public TextView getTextView(){
@@ -53,9 +67,10 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
      * @param dataSet String[] containing the data to populate views to be used
      * by RecyclerView.
      */
-    public CustomAdapter(LinkedList<LocationData> dataSet, Context context){
+    public CustomAdapter(LinkedList<LocationData> dataSet, Context context, int layout){
         localData = dataSet;
         orgContext = context;
+        listItemLayout = layout;
     }
 
     //Create new views (invoked by the layout manager)
@@ -63,7 +78,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         // Create a new view, which defines the UI of the list item
         View view = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.text_row_item, viewGroup, false);
+                .inflate(listItemLayout, viewGroup, false);
 
         return new ViewHolder(view);
     }
@@ -107,6 +122,39 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
                 view.getContext().startActivity(intent);
             }
         });
+
+
+        if (viewHolder.deleteButton != null){
+
+            viewHolder.deleteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String toBeDeleted = localData.get(position).getName();
+
+                    myDatabase.collection(MainActivity.userEmail)
+                            .document(toBeDeleted)
+                            .delete()
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    //call favorites activity again
+                                    MainActivity.updateFavList();
+                                    Toast.makeText(orgContext, "Succesfully Deleted", Toast.LENGTH_SHORT);
+                                    Intent favIntent = new Intent(orgContext, FavoritesActivity.class);
+                                    orgContext.startActivity(favIntent);
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    //on failure, post toast message
+                                    Toast.makeText(orgContext, "Error: did not delete", Toast.LENGTH_SHORT);
+
+                                }
+                            });
+                }
+            });
+        }
 
     }
 

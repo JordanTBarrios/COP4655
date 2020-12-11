@@ -16,10 +16,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
+
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
 
 public class DetailsActivity extends AppCompatActivity {
 
@@ -36,6 +49,9 @@ public class DetailsActivity extends AppCompatActivity {
     private DrawerLayout dl;
     private ActionBarDrawerToggle t;
     private NavigationView nv;
+
+    //public static LinkedList<LocationData> favList;
+    //private FirebaseFirestore myDatabase = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -186,7 +202,44 @@ public class DetailsActivity extends AppCompatActivity {
     }
 
     public void onAddFavoriteClick(View view){
-        //test
+        //access Cloud Firestore database
+
+        FirebaseFirestore myDatabase = FirebaseFirestore.getInstance();
+
+        //location attributes
+        Map<String, Object> location = new HashMap<>();
+        location.put("name", name);
+        location.put("reviews", reviews);
+        location.put("rating", rating);
+        location.put("address", address);
+        location.put("distance", distance);
+        location.put("isClosed", isClosed);
+        location.put("phone", phone);
+        location.put("url", url);
+        location.put("imgUrl", imgUrl);
+
+
+        //add new favorites location to collection
+        myDatabase.collection(MainActivity.userEmail)
+                .document(name)
+                .set(location)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+
+                        //on success
+                        Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        //update favorites after adding
+        MainActivity.updateFavList();
 
     }
 

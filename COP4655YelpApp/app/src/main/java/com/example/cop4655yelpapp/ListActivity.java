@@ -35,7 +35,7 @@ public class ListActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         LinkedList<LocationData> aList = SearchActivity.getLocationList();
 
-        CustomAdapter mAdapter = new CustomAdapter(aList, this);
+        CustomAdapter mAdapter = new CustomAdapter(aList, this, R.layout.text_row_item);
         recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 

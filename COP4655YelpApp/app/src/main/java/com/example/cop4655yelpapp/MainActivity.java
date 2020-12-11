@@ -22,15 +22,22 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.LinkedList;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
     private Context context;
     private GoogleSignInClient mGoogleSignInClient;
-    private final static int RC_SIGN_IN = 1;
+    private final static int RC_SIGN_IN = 123;
     private FirebaseAuth mAuth;
+
+    public static String userEmail;
+    public static LinkedList<LocationData> favList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,12 +77,68 @@ public class MainActivity extends AppCompatActivity {
         // the GoogleSignInAccount will be non-null.
         //GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         //updateUI(account);
+
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null){
+            //get User Email for Favorites
+            userEmail = currentUser.getEmail();
+
+            updateFavList();
+
             Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
             startActivity(intent);
         }
         //updateUI(currentUser);
+    }
+
+    public static void updateFavList(){
+        //get favorites from firestore and store locations in a linkedlist
+        favList = new LinkedList<LocationData>();
+
+        //firebase cloud firestore
+        FirebaseFirestore myDatabase = FirebaseFirestore.getInstance();
+        myDatabase.collection(MainActivity.userEmail)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            for (QueryDocumentSnapshot document : task.getResult()){
+                                //test.setText(document.get("name").toString());
+                                //store a single location in a LocationData object
+                                LocationData aFavorite = new LocationData();
+                                /*
+                                Map<String, Object> aFav = document.getData();
+
+                                for (Map.Entry<String, Object> entry : map.entrySet()){
+                                    String key = entry.getKey();
+                                    if (key == "name"){
+                                        aFavorite.setName(entry.getValue().toString());
+                                    }
+                                }
+                                */
+
+                                aFavorite.setName(document.get("name").toString());
+                                aFavorite.setReviewCount(Integer.parseInt(document.get("reviews").toString()));
+                                aFavorite.setRating(Double.parseDouble(document.get("rating").toString()));
+                                aFavorite.setAddress(document.get("address").toString());
+                                aFavorite.setDistance(Double.parseDouble(document.get("distance").toString()));
+                                aFavorite.setIsClosed(Boolean.parseBoolean(document.get("isClosed").toString()));
+                                aFavorite.setPhone(document.get("phone").toString());
+                                aFavorite.setUrl(document.get("url").toString());
+                                aFavorite.setImgUrl(document.get("imgUrl").toString());
+
+
+                                //add LocationData object to linkedlist
+                                favList.add(aFavorite);
+                            }
+                        }
+                    }
+                });
+    }
+
+    public static LinkedList<LocationData> getFavList(){
+        return favList;
     }
 
     public void onSignInClick(View view){
