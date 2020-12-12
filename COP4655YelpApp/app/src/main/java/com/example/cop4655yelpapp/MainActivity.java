@@ -49,18 +49,13 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         //google signin
-        // Configure sign-in to request the user's ID, email address, and basic
-        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
-
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken("1037212829282-4fra8k5qfi2smk16cp2idoh86hef48mh.apps.googleusercontent.com")
                 .requestEmail()
                 .build();
-        //R.string.default_web_client_id
 
         // Build a GoogleSignInClient with the options specified by gso.
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
 
         findViewById(R.id.SignInButton).setOnClickListener(new View.OnClickListener(){
             @Override
@@ -73,22 +68,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        // Check for existing Google Sign In account, if the user is already signed in
-        // the GoogleSignInAccount will be non-null.
-        //GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        //updateUI(account);
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null){
             //get User Email for Favorites
             userEmail = currentUser.getEmail();
 
+            //sets users favorites list
             updateFavList();
 
+            //go to search activity
             Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
             startActivity(intent);
         }
-        //updateUI(currentUser);
     }
 
     public static void updateFavList(){
@@ -104,19 +96,8 @@ public class MainActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()){
                             for (QueryDocumentSnapshot document : task.getResult()){
-                                //test.setText(document.get("name").toString());
                                 //store a single location in a LocationData object
                                 LocationData aFavorite = new LocationData();
-                                /*
-                                Map<String, Object> aFav = document.getData();
-
-                                for (Map.Entry<String, Object> entry : map.entrySet()){
-                                    String key = entry.getKey();
-                                    if (key == "name"){
-                                        aFavorite.setName(entry.getValue().toString());
-                                    }
-                                }
-                                */
 
                                 aFavorite.setName(document.get("name").toString());
                                 aFavorite.setReviewCount(Integer.parseInt(document.get("reviews").toString()));
@@ -128,7 +109,6 @@ public class MainActivity extends AppCompatActivity {
                                 aFavorite.setUrl(document.get("url").toString());
                                 aFavorite.setImgUrl(document.get("imgUrl").toString());
 
-
                                 //add LocationData object to linkedlist
                                 favList.add(aFavorite);
                             }
@@ -137,24 +117,12 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    public static LinkedList<LocationData> getFavList(){
-        return favList;
-    }
+    //lets other activities access favorites list.
+    public static LinkedList<LocationData> getFavList(){ return favList; }
 
     public void onSignInClick(View view){
-        //Intent SearchIntent = new Intent (context, MapActivity.class);
-        //startActivity(SearchIntent);
-
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
-    }
-
-    public void onSignUpClick(View view){
-
-    }
-
-    public void updateUI(FirebaseUser currentUse){
-
     }
 
     @Override
@@ -185,24 +153,15 @@ public class MainActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser user = mAuth.getCurrentUser();
+                            //go to search activity
                             Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
                             startActivity(intent);
 
                         } else {
                             // If sign in fails, display a message to the user.
-                            // mBinding.mainLayout
                             Toast.makeText(MainActivity.this, "Authentication failure", Toast.LENGTH_SHORT).show();
                         }
-
-                        // ...
                     }
                 });
     }
-
-    /*
-    private void signIn() {
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, RC_SIGN_IN);
-    }
-    */
 }

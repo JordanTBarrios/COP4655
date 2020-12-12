@@ -50,16 +50,15 @@ public class DetailsActivity extends AppCompatActivity {
     private ActionBarDrawerToggle t;
     private NavigationView nv;
 
-    //public static LinkedList<LocationData> favList;
-    //private FirebaseFirestore myDatabase = FirebaseFirestore.getInstance();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
 
+        //gets the location data from Intent
         getData();
 
+        //Set the values of the views
         //name
         TextView nameTV = (TextView) findViewById(R.id.nameTV);
         nameTV.setText(name);
@@ -82,10 +81,12 @@ public class DetailsActivity extends AppCompatActivity {
 
         //isClosed
         if (isClosed){
+            //Red "Closed" if closed
             TextView isClosedTV = (TextView) findViewById(R.id.isClosedTV);
             isClosedTV.setText("Closed");
             isClosedTV.setTextColor(Color.RED);
         } else {
+            //Green "Open" if opened
             TextView isClosedTV = (TextView) findViewById(R.id.isClosedTV);
             isClosedTV.setText("Open");
             isClosedTV.setTextColor(Color.GREEN);
@@ -100,8 +101,7 @@ public class DetailsActivity extends AppCompatActivity {
         Picasso.get().load(imgUrl).into(locationImage);
 
 
-
-        //popup drawer navigation
+        //Popup side drawer navigation
         dl = (DrawerLayout)findViewById(R.id.activity_details);
         t = new ActionBarDrawerToggle(this, dl, R.string.Open, R.string.Close);
 
@@ -110,7 +110,7 @@ public class DetailsActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
+        //Set drawer nav buttons' listeners
         nv = (NavigationView)findViewById(R.id.nv);
         nv.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -119,15 +119,15 @@ public class DetailsActivity extends AppCompatActivity {
                 switch(id)
                 {
                     case R.id.signOut_drawer_item:
+                        //Sign out and go to main activity
                         Toast.makeText(DetailsActivity.this, "Sign out",Toast.LENGTH_SHORT).show();
                         FirebaseAuth.getInstance().signOut();
                         Intent mainIntent = new Intent (getApplicationContext(), MainActivity.class);
-                        startActivity(mainIntent); //is last
+                        startActivity(mainIntent);
                         break;
                     case R.id.favorites_drawer_item:
-                        Toast.makeText(DetailsActivity.this, "Favorites",Toast.LENGTH_SHORT).show();
-
                         //go to favorites activity
+                        Toast.makeText(DetailsActivity.this, "Favorites",Toast.LENGTH_SHORT).show();
                         Intent favIntent = new Intent (getApplicationContext(), FavoritesActivity.class);
                         startActivity(favIntent);
                         break;
@@ -135,16 +135,13 @@ public class DetailsActivity extends AppCompatActivity {
                         return true;
                 }
 
-
                 return true;
 
             }
         });
 
 
-
-
-        //listener for the bottom navigation view
+        //listener for the bottom navigation bar
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -152,31 +149,19 @@ public class DetailsActivity extends AppCompatActivity {
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch(item.getItemId()){
                             case R.id.home_icon:
-
-                                //Toast.makeText(DisplayWeatherMap.this, "Results", Toast.LENGTH_SHORT).show();
-
                                 //go to search activity
                                 Intent searchIntent = new Intent (getApplicationContext(), SearchActivity.class);
                                 startActivity(searchIntent);
                                 break;
                             case R.id.map_icon:
-                                /*
-                                Toast.makeText(DisplayWeatherMap.this, "Map", Toast.LENGTH_SHORT).show();
-                                break;
-
-                                 */
                                 //go to map activity
                                 Intent mapIntent = new Intent (getApplicationContext(), MapActivity.class);
                                 startActivity(mapIntent);
-                                //Toast.makeText(MapActivity.this, "Already on Map", Toast.LENGTH_SHORT).show();
-
                                 break;
                             case R.id.list_view_icon:
-
                                 //go to list activity
                                 Intent listIntent = new Intent (getApplicationContext(), ListActivity.class);
                                 startActivity(listIntent);
-                                //Toast.makeText(ListActivity.this, "Already on List", Toast.LENGTH_SHORT).show();
                                 break;
                         }
                         return true;
@@ -185,6 +170,7 @@ public class DetailsActivity extends AppCompatActivity {
         );
     }
 
+    //gets the location data from Intent
     public void getData(){
         name = getIntent().getStringExtra("locName");
         reviews = getIntent().getIntExtra("locReviews", 0);
@@ -197,16 +183,17 @@ public class DetailsActivity extends AppCompatActivity {
         imgUrl = getIntent().getStringExtra("locImgUrl");
     }
 
+    //Opens new activity with this location's real Yelp page
     public void onWebsiteClick(View view){
         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
     }
 
+    //Add this location to current user's favorites
     public void onAddFavoriteClick(View view){
         //access Cloud Firestore database
-
         FirebaseFirestore myDatabase = FirebaseFirestore.getInstance();
 
-        //location attributes
+        //add location attributes to hashmap
         Map<String, Object> location = new HashMap<>();
         location.put("name", name);
         location.put("reviews", reviews);
@@ -218,34 +205,30 @@ public class DetailsActivity extends AppCompatActivity {
         location.put("url", url);
         location.put("imgUrl", imgUrl);
 
-
-        //add new favorites location to collection
+        //add location hashmap to user collection
+        //sets the location name as the document name
         myDatabase.collection(MainActivity.userEmail)
                 .document(name)
                 .set(location)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-
-                        //on success
-                        Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Added to Favorites", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Error: Not added to Favorites", Toast.LENGTH_SHORT).show();
                     }
                 });
 
-        //update favorites after adding
+        //update favorites after adding location to favorites
         MainActivity.updateFavList();
-
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         if(t.onOptionsItemSelected(item))
             return true;
 

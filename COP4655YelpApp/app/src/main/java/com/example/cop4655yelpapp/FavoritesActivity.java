@@ -37,7 +37,6 @@ public class FavoritesActivity extends AppCompatActivity {
     private NavigationView nv;
 
     public RecyclerView recyclerView;
-    //private FirebaseFirestore myDatabase = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,80 +45,15 @@ public class FavoritesActivity extends AppCompatActivity {
 
         LinkedList<LocationData> favs = MainActivity.getFavList();
 
-        //recycler view
+        //Recycler View initialization
         recyclerView = findViewById(R.id.recyclerView);
-        //LinkedList<LocationData> aList = SearchActivity.getLocationList();
-
-        /*
-        final LinkedList<LocationData> favList = new LinkedList<LocationData>();
-
-        FirebaseFirestore myDatabase = FirebaseFirestore.getInstance();
-        myDatabase.collection(MainActivity.userEmail)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            for (QueryDocumentSnapshot document : task.getResult()){
-                                //test.setText(document.get("name").toString());
-                                //store a single location in a LocationData object
-                                LocationData aFavorite = new LocationData();
-
-                                Map<String, Object> aFav = document.getData();
-
-                                for (Map.Entry<String, Object> entry : map.entrySet()){
-                                    String key = entry.getKey();
-                                    if (key == "name"){
-                                        aFavorite.setName(entry.getValue().toString());
-                                    }
-                                }
-
-
-                                aFavorite.setName(document.get("name").toString());
-                                aFavorite.setReviewCount(Integer.parseInt(document.get("reviews").toString()));
-                                aFavorite.setRating(Double.parseDouble(document.get("rating").toString()));
-                                aFavorite.setAddress(document.get("address").toString());
-                                aFavorite.setDistance(Double.parseDouble(document.get("distance").toString()));
-                                aFavorite.setIsClosed(Boolean.parseBoolean(document.get("isClosed").toString()));
-                                aFavorite.setPhone(document.get("phone").toString());
-                                aFavorite.setUrl(document.get("url").toString());
-                                aFavorite.setImgUrl(document.get("imgUrl").toString());
-
-
-                                //add LocationData object to linkedlist
-                                favList.add(aFavorite);
-                            }
-                        }
-                    }
-                });
-
-        */
-
-        //give linkedlist of locations to recycler adapter
+        //pass favorites list to recycler adapter
         CustomAdapter mAdapter = new CustomAdapter(favs, this, R.layout.favorites_row_item);
         recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        //testing
-        /*
-        final TextView test = findViewById(R.id.testing);
-        FirebaseFirestore myDatabase = FirebaseFirestore.getInstance();
-        myDatabase.collection(MainActivity.userEmail)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            for (QueryDocumentSnapshot document : task.getResult()){
-                                test.setText(document.get("name").toString());
-                            }
-                        }
-                    }
-                });
 
-        */
-
-        //popup drawer navigation
+        //Popup side drawer navigation
         dl = (DrawerLayout)findViewById(R.id.activity_favorites);
         t = new ActionBarDrawerToggle(this, dl, R.string.Open, R.string.Close);
 
@@ -128,7 +62,7 @@ public class FavoritesActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
+        //Set drawer nav buttons' listeners
         nv = (NavigationView)findViewById(R.id.nv);
         nv.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -137,10 +71,11 @@ public class FavoritesActivity extends AppCompatActivity {
                 switch(id)
                 {
                     case R.id.signOut_drawer_item:
+                        //Sign out and go to main activity
                         Toast.makeText(FavoritesActivity.this, "Sign out",Toast.LENGTH_SHORT).show();
                         FirebaseAuth.getInstance().signOut();
                         Intent intent = new Intent (getApplicationContext(), MainActivity.class);
-                        startActivity(intent); //is last
+                        startActivity(intent);
                         break;
                     case R.id.favorites_drawer_item:
                         Toast.makeText(FavoritesActivity.this, "Already on favorites",Toast.LENGTH_SHORT).show();
@@ -149,12 +84,10 @@ public class FavoritesActivity extends AppCompatActivity {
                         return true;
                 }
 
-
                 return true;
 
             }
         });
-
 
 
         //listener for the bottom navigation view
@@ -165,20 +98,13 @@ public class FavoritesActivity extends AppCompatActivity {
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch(item.getItemId()){
                             case R.id.home_icon:
-
-                                //Toast.makeText(DisplayWeatherMap.this, "Results", Toast.LENGTH_SHORT).show();
-
                                 //go to search activity
                                 Intent searchIntent = new Intent (getApplicationContext(), SearchActivity.class);
                                 startActivity(searchIntent);
                                 break;
                             case R.id.map_icon:
-                                /*
-                                Toast.makeText(DisplayWeatherMap.this, "Map", Toast.LENGTH_SHORT).show();
-                                break;
-
-                                 */
                                 //go to map activity
+                                //Checks if user has searched yet
                                 LinkedList<LocationData> d1 = SearchActivity.getLocationList();
                                 if (d1.isEmpty()) {
                                     Toast.makeText(FavoritesActivity.this, "Please search first", Toast.LENGTH_SHORT).show();
@@ -186,13 +112,10 @@ public class FavoritesActivity extends AppCompatActivity {
                                     Intent mapIntent = new Intent (getApplicationContext(), MapActivity.class);
                                     startActivity(mapIntent);
                                 }
-
-                                //Toast.makeText(MapActivity.this, "Already on Map", Toast.LENGTH_SHORT).show();
-
                                 break;
                             case R.id.list_view_icon:
-
                                 //go to list activity
+                                //Checks if user has searched yet
                                 LinkedList<LocationData> d2 = SearchActivity.getLocationList();
                                 if (d2.isEmpty()) {
                                     Toast.makeText(FavoritesActivity.this, "Please search first", Toast.LENGTH_SHORT).show();
@@ -200,31 +123,21 @@ public class FavoritesActivity extends AppCompatActivity {
                                     Intent listIntent = new Intent (getApplicationContext(), ListActivity.class);
                                     startActivity(listIntent);
                                 }
-                                //Toast.makeText(ListActivity.this, "Already on List", Toast.LENGTH_SHORT).show();
                                 break;
                         }
+
                         return true;
+
                     }
                 }
         );
     }
 
-
-
-
-
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         if(t.onOptionsItemSelected(item))
             return true;
 
         return super.onOptionsItemSelected(item);
     }
-
-    public void onDeleteButtonClicked(View view){
-
-    }
-
 }

@@ -36,14 +36,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
-        //google maps fragment
+        //google maps fragment initialization
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
 
-
-        //popup drawer navigation
+        //Popup side drawer navigation
         dl = (DrawerLayout)findViewById(R.id.activity_map);
         t = new ActionBarDrawerToggle(this, dl, R.string.Open, R.string.Close);
 
@@ -52,8 +51,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
-
+        //Set drawer nav buttons' listeners
         nv = (NavigationView)findViewById(R.id.nv);
         nv.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -62,14 +60,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 switch(id)
                 {
                     case R.id.signOut_drawer_item:
+                        //Sign out and go to main activity
                         Toast.makeText(MapActivity.this, "Sign out",Toast.LENGTH_SHORT).show();
                         FirebaseAuth.getInstance().signOut();
                         Intent intent = new Intent (getApplicationContext(), MainActivity.class);
-                        startActivity(intent); //is last
+                        startActivity(intent);
                         break;
                     case R.id.favorites_drawer_item:
-                        Toast.makeText(MapActivity.this, "Favorites",Toast.LENGTH_SHORT).show();
                         //go to favorites activity
+                        Toast.makeText(MapActivity.this, "Favorites",Toast.LENGTH_SHORT).show();
                         Intent favIntent = new Intent (getApplicationContext(), FavoritesActivity.class);
                         startActivity(favIntent);
                         break;
@@ -77,13 +76,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                         return true;
                 }
 
-
                 return true;
 
             }
         });
-
-
 
 
         //listener for the bottom navigation view
@@ -94,32 +90,23 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch(item.getItemId()){
                             case R.id.home_icon:
-
-                                //Toast.makeText(DisplayWeatherMap.this, "Results", Toast.LENGTH_SHORT).show();
-
                                 //go to search activity
                                 Intent searchIntent = new Intent (getApplicationContext(), SearchActivity.class);
                                 startActivity(searchIntent);
                                 //break;
                                 break;
                             case R.id.map_icon:
-                                /*
-                                Toast.makeText(DisplayWeatherMap.this, "Map", Toast.LENGTH_SHORT).show();
-                                break;
-
-                                 */
-                                //go to map activity
                                 Toast.makeText(MapActivity.this, "Already on Map", Toast.LENGTH_SHORT).show();
-
                                 break;
                             case R.id.list_view_icon:
-
                                 //go to list activity
                                 Intent listIntent = new Intent (getApplicationContext(), ListActivity.class);
                                 startActivity(listIntent);
                                 break;
                         }
+
                         return true;
+
                     }
                 }
         );
@@ -127,44 +114,31 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     @Override
     public void onMapReady(GoogleMap googleMap){
-
-
-        //get weather data, which was set in main activity
-        //WeatherData data = MainActivity.getWeatherInstance();
-
+        //get search location list
         LinkedList<LocationData> list = SearchActivity.getLocationList();
-
         double latitude;
         double longitude;
         LatLng location = new LatLng(0, 0);
 
-        //convert lat and lon strings to doubles
+        //For each location, place a marker on the map
         for (int i = 0; i < list.size(); i++){
             latitude = list.get(i).getLat();
             longitude = list.get(i).getLon();
 
-            // get location and add marker
+            //get location and add marker
             location = new LatLng(latitude, longitude);
             googleMap.addMarker(new MarkerOptions().position(location).title(list.get(i).getName()));
         }
-
-        // Add a marker and move the camera
-        //LatLng location = new LatLng(latitude, longitude);
-
-        //googleMap.addMarker(new MarkerOptions().position(location).title(data.getName() + ", " + data.getCountry()));
+        //zoom in on map and move to last location in the list
         googleMap.moveCamera(CameraUpdateFactory.zoomTo(13));
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(location));
-        //TileOverlay tileOverlay = googleMap.addTileOverlay(new TileOverlayOptions().tileProvider(tileProvider)); //add tile overlay
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         if(t.onOptionsItemSelected(item))
             return true;
 
         return super.onOptionsItemSelected(item);
     }
-
 }

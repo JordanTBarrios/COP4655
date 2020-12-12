@@ -31,17 +31,16 @@ public class ListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
 
-        //recycler view
+        //Recycler View initialization
         recyclerView = findViewById(R.id.recyclerView);
         LinkedList<LocationData> aList = SearchActivity.getLocationList();
-
+        //pass search list to recycler adapter
         CustomAdapter mAdapter = new CustomAdapter(aList, this, R.layout.text_row_item);
         recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
-
-        //popup drawer navigation
+        //Popup side drawer navigation
         dl = (DrawerLayout)findViewById(R.id.activity_list);
         t = new ActionBarDrawerToggle(this, dl, R.string.Open, R.string.Close);
 
@@ -50,7 +49,7 @@ public class ListActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
+        //Set drawer nav buttons' listeners
         nv = (NavigationView)findViewById(R.id.nv);
         nv.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -59,14 +58,15 @@ public class ListActivity extends AppCompatActivity {
                 switch(id)
                 {
                     case R.id.signOut_drawer_item:
+                        //Sign out and go to main activity
                         Toast.makeText(ListActivity.this, "Sign out",Toast.LENGTH_SHORT).show();
                         FirebaseAuth.getInstance().signOut();
                         Intent intent = new Intent (getApplicationContext(), MainActivity.class);
-                        startActivity(intent); //is last
+                        startActivity(intent);
                         break;
                     case R.id.favorites_drawer_item:
-                        Toast.makeText(ListActivity.this, "Favorites",Toast.LENGTH_SHORT).show();
                         //go to favorites activity
+                        Toast.makeText(ListActivity.this, "Favorites",Toast.LENGTH_SHORT).show();
                         Intent favIntent = new Intent (getApplicationContext(), FavoritesActivity.class);
                         startActivity(favIntent);
                         break;
@@ -74,13 +74,10 @@ public class ListActivity extends AppCompatActivity {
                         return true;
                 }
 
-
                 return true;
 
             }
         });
-
-
 
 
         //listener for the bottom navigation view
@@ -91,28 +88,16 @@ public class ListActivity extends AppCompatActivity {
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         switch(item.getItemId()){
                             case R.id.home_icon:
-
-                                //Toast.makeText(DisplayWeatherMap.this, "Results", Toast.LENGTH_SHORT).show();
-
                                 //go to search activity
                                 Intent searchIntent = new Intent (getApplicationContext(), SearchActivity.class);
                                 startActivity(searchIntent);
                                 break;
                             case R.id.map_icon:
-                                /*
-                                Toast.makeText(DisplayWeatherMap.this, "Map", Toast.LENGTH_SHORT).show();
-                                break;
-
-                                 */
                                 //go to map activity
                                 Intent mapIntent = new Intent (getApplicationContext(), MapActivity.class);
                                 startActivity(mapIntent);
-                                //Toast.makeText(MapActivity.this, "Already on Map", Toast.LENGTH_SHORT).show();
-
                                 break;
                             case R.id.list_view_icon:
-
-                                //go to list activity
                                 Toast.makeText(ListActivity.this, "Already on List", Toast.LENGTH_SHORT).show();
                                 break;
                         }
@@ -124,7 +109,6 @@ public class ListActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         if(t.onOptionsItemSelected(item))
             return true;
 

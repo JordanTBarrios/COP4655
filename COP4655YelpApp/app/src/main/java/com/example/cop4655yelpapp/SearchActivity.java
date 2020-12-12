@@ -3,11 +3,16 @@ package com.example.cop4655yelpapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,8 +44,8 @@ public class SearchActivity extends AppCompatActivity {
     private DrawerLayout dl;
     private ActionBarDrawerToggle t;
     private NavigationView nv;
+    //Yelp requires bearer token
     private String ACCESS_TOKEN = "LDbyPaYNGb0zZFNTYCaPgNH4nX1RmT89eM_eMPH0CUU97y9Jo6sdgaD_edk-u2x3GzFCZE2LwjemYhaBpJkTNu2j5i9y_FA65yVYSy3eIwtkuqborRUnBOa9SmTNX3Yx";
-
     public static LinkedList<LocationData> data = new LinkedList<LocationData>();
 
     @Override
@@ -48,14 +53,8 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        /*
-        //my call to drawer nav
-        DrawerNav myNav = new DrawerNav();
-        myNav.initDrawerNav(R.id.activity_search, this, this);
-        */
-
-        //popup drawer navigation
-        dl = (DrawerLayout)findViewById(R.id.activity_search);
+        //Popup side drawer navigation
+        dl = (DrawerLayout) findViewById(R.id.activity_search);
         t = new ActionBarDrawerToggle(this, dl, R.string.Open, R.string.Close);
 
         dl.addDrawerListener(t);
@@ -63,36 +62,34 @@ public class SearchActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
-        nv = (NavigationView)findViewById(R.id.nv);
+        //Set drawer nav buttons' listeners
+        nv = (NavigationView) findViewById(R.id.nv);
         nv.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
-                switch(id)
-                {
+                switch (id) {
                     case R.id.signOut_drawer_item:
-                        Toast.makeText(SearchActivity.this, "Sign out",Toast.LENGTH_SHORT).show();
+                        //Sign Out and go to main activity
+                        Toast.makeText(SearchActivity.this, "Sign out", Toast.LENGTH_SHORT).show();
                         FirebaseAuth.getInstance().signOut();
-                        Intent intent = new Intent (getApplicationContext(), MainActivity.class);
-                        startActivity(intent); //is last
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(intent);
                         break;
                     case R.id.favorites_drawer_item:
-                        Toast.makeText(SearchActivity.this, "Favorites",Toast.LENGTH_SHORT).show();
                         //go to favorites activity
-                        Intent favIntent = new Intent (getApplicationContext(), FavoritesActivity.class);
+                        Toast.makeText(SearchActivity.this, "Favorites", Toast.LENGTH_SHORT).show();
+                        Intent favIntent = new Intent(getApplicationContext(), FavoritesActivity.class);
                         startActivity(favIntent);
                         break;
                     default:
                         return true;
                 }
 
-
                 return true;
 
             }
         });
-
 
 
         //listener for the bottom navigation view
@@ -101,60 +98,47 @@ public class SearchActivity extends AppCompatActivity {
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        switch(item.getItemId()){
+                        switch (item.getItemId()) {
                             case R.id.home_icon:
-
-                                //Toast.makeText(DisplayWeatherMap.this, "Results", Toast.LENGTH_SHORT).show();
-
-                                //go to search activity
                                 Toast.makeText(SearchActivity.this, "Already on Search", Toast.LENGTH_SHORT).show();
-                                //break;
                                 break;
                             case R.id.map_icon:
-                                /*
-                                Toast.makeText(DisplayWeatherMap.this, "Map", Toast.LENGTH_SHORT).show();
-                                break;
-
-                                 */
                                 //go to map activity
-                                //Intent mapIntent = new Intent (getApplicationContext(), MapActivity.class);
-                                //startActivity(mapIntent);
-                                //Toast.makeText(MapActivity.this, "Already on Map", Toast.LENGTH_SHORT).show();
-
-                                //go to map activity
+                                //Checks if user has searched yet
                                 LinkedList<LocationData> d1 = SearchActivity.getLocationList();
                                 if (d1.isEmpty()) {
                                     Toast.makeText(SearchActivity.this, "Please search first", Toast.LENGTH_SHORT).show();
                                 } else {
-                                    Intent mapIntent = new Intent (getApplicationContext(), MapActivity.class);
+                                    Intent mapIntent = new Intent(getApplicationContext(), MapActivity.class);
                                     startActivity(mapIntent);
                                 }
-
                                 break;
                             case R.id.list_view_icon:
-
                                 //go to list activity
-                                //Intent listIntent = new Intent (getApplicationContext(), ListActivity.class);
-                                //startActivity(listIntent);
-                                //go to list activity
+                                //Checks if user has searched yet
                                 LinkedList<LocationData> d2 = SearchActivity.getLocationList();
                                 if (d2.isEmpty()) {
                                     Toast.makeText(SearchActivity.this, "Please search first", Toast.LENGTH_SHORT).show();
                                 } else {
-                                    Intent listIntent = new Intent (getApplicationContext(), ListActivity.class);
+                                    Intent listIntent = new Intent(getApplicationContext(), ListActivity.class);
                                     startActivity(listIntent);
                                 }
                                 break;
                         }
+
                         return true;
+
                     }
                 }
         );
     }
 
-    public static LinkedList<LocationData> getLocationList(){ return data; }
+    //lets other activities access the location list that results from search
+    public static LinkedList<LocationData> getLocationList() {
+        return data;
+    }
 
-    public void onSubmitClick(View view){
+    public void onSubmitClick(View view) {
         EditText searchField = (EditText) findViewById(R.id.SearchTextField);
         EditText locationField = (EditText) findViewById(R.id.LocationTextField);
         String searchInput = searchField.getText().toString();
@@ -162,30 +146,42 @@ public class SearchActivity extends AppCompatActivity {
 
         String url;
 
+        //gps services if user does not type location
+        LocationManager locationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
+        boolean isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        boolean isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
         //check if input is valid
-        if (!searchInput.isEmpty() && !locationInput.isEmpty()){
+        //requires both business and location
+        if (!searchInput.isEmpty() && !locationInput.isEmpty()) {
             //call to api
             url = "https://api.yelp.com/v3/businesses/search?location=" + locationInput + "&term=" + searchInput;
             setLocationData(url);
-        } else if (!searchInput.isEmpty() && locationInput.isEmpty()){
+        } else if ((!searchInput.isEmpty() && locationInput.isEmpty()) && isGPSEnabled && isNetworkEnabled) {
+            //use phone location if location is not inputted
 
-            //use default phone location... lat and lon
-
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
+            Location phoneLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            url = "https://api.yelp.com/v3/businesses/search?latitude=" + phoneLocation.getLatitude() + "&longitude=" + phoneLocation.getLongitude() + "&term=" + searchInput;
+            setLocationData(url);
         } else {
             //print error
             Toast.makeText(getApplicationContext(), "Fill both search fields", Toast.LENGTH_SHORT).show();
         }
 
-
-        //Intent intent = new Intent (getApplicationContext(), MapActivity.class);
-        //startActivity(intent);
     }
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         if(t.onOptionsItemSelected(item))
             return true;
 
@@ -193,17 +189,16 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     public void setLocationData(String url){
-
+        //make JSONobjectrequest and use Volley
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                //System.out.println(response);
                 //use api response
                 try {
 
                     //main array
                     JSONArray businessesArray = response.getJSONArray("businesses");
-                    
+                    //clear data so results only show current search
                     data.clear();
 
                     for (int i = 0; i < 10; i++) {
@@ -256,9 +251,7 @@ public class SearchActivity extends AppCompatActivity {
                         //once done adding attributes to location, add to linked list
                         data.add(aLocation);
                     }
-                    //Toast.makeText(getApplicationContext(), data.get(4).getName(), Toast.LENGTH_SHORT).show();
-
-                    //switch activities
+                    //switch activity to List activity
                     Intent intent = new Intent(getApplicationContext(), ListActivity.class);
                     startActivity(intent);
                 } catch (final JSONException e){
@@ -281,8 +274,8 @@ public class SearchActivity extends AppCompatActivity {
                 return params;
             }
         };
+        //use Volley
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         queue.add(request);
     }
-
 }
