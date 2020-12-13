@@ -91,8 +91,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         viewHolder.getTextView().setText(localData.get(position).getName());
         viewHolder.ratingView.setText("Rating: " + localData.get(position).getRating());
         viewHolder.addressView.setText(localData.get(position).getAddress());
-        //convert meters to miles
-        viewHolder.distanceView.setText(0.000621371 * localData.get(position).getDistance() + "mi");
+        //convert meters to miles and round to 2 decimal places
+        viewHolder.distanceView.setText((Math.round(0.000621371 * localData.get(position).getDistance() * 100.0)/100.0) + "mi");
         if (localData.get(position).getIsClosed()){
             viewHolder.isClosedView.setText("Closed");
             viewHolder.isClosedView.setTextColor(Color.RED);

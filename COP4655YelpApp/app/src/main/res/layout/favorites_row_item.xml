@@ -50,9 +50,10 @@
         android:layout_alignParentLeft="true"
         android:layout_marginStart="0dp"
         android:layout_marginLeft="0dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:gravity="center"
-        android:text="Address 123 street" />
+        android:text="Address 123 street"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/distanceText"
@@ -63,7 +64,7 @@
         android:layout_alignParentLeft="true"
         android:layout_marginStart="23dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="8dp"
         android:layout_marginBottom="5dp"
         android:gravity="center"
         android:text="distance" />
@@ -73,12 +74,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/addressText"
-        android:layout_marginStart="112dp"
-        android:layout_marginLeft="112dp"
-        android:layout_marginTop="12dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
         android:layout_marginBottom="5dp"
-        android:layout_toEndOf="@+id/distanceText"
-        android:layout_toRightOf="@+id/distanceText"
         android:gravity="center"
         android:text="Open" />
 
@@ -89,12 +87,13 @@
         android:layout_below="@+id/addressText"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="29dp"
-        android:layout_marginRight="29dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="7dp"
+        android:background="@android:color/holo_red_dark"
         android:gravity="center"
         android:text="@string/DeleteButton"
-        android:textSize="8sp"
         android:textColor="@android:color/white"
-        android:background="@android:color/holo_red_dark"/>
+        android:textSize="12sp" />
 </RelativeLayout>

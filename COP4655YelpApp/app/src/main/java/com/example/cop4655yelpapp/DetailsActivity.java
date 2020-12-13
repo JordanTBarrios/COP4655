@@ -1,6 +1,7 @@
 package com.example.cop4655yelpapp;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -76,8 +77,9 @@ public class DetailsActivity extends AppCompatActivity {
         addressTV.setText(address);
 
         //distance
+        //rounded to two decimals
         TextView distanceTV = (TextView) findViewById(R.id.distanceTV);
-        distanceTV.setText(distance + "mi");
+        distanceTV.setText((Math.round(.000621371 * distance * 100.0)/100.0) + "mi");
 
         //isClosed
         if (isClosed){
@@ -100,6 +102,9 @@ public class DetailsActivity extends AppCompatActivity {
         ImageView locationImage = (ImageView) findViewById(R.id.locationImageView);
         Picasso.get().load(imgUrl).into(locationImage);
 
+        //center text on action bar
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.ab_layout);
 
         //Popup side drawer navigation
         dl = (DrawerLayout)findViewById(R.id.activity_details);

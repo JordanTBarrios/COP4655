@@ -19,9 +19,8 @@
             android:layout_below="@+id/addressTV"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="22dp"
-            android:layout_marginEnd="29dp"
-            android:layout_marginRight="29dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="20dp"
             android:layout_marginBottom="5dp"
             android:gravity="center"
             android:text="Open" />
@@ -33,9 +32,8 @@
             android:layout_below="@+id/addressTV"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
-            android:layout_marginStart="26dp"
-            android:layout_marginLeft="26dp"
-            android:layout_marginTop="22dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:gravity="center"
             android:text="distance" />
@@ -44,14 +42,11 @@
             android:id="@+id/addressTV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/nameTV"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_marginStart="2dp"
-            android:layout_marginLeft="2dp"
-            android:layout_marginTop="70dp"
+            android:layout_below="@+id/reviewsTV"
+            android:layout_marginTop="5dp"
             android:gravity="center"
-            android:text="Address 123 street" />
+            android:text="Address 123 street"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/ratingTV"
@@ -60,9 +55,8 @@
             android:layout_below="@+id/nameTV"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="36dp"
-            android:layout_marginRight="36dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="20dp"
             android:gravity="center"
             android:text="rating" />
 
@@ -71,7 +65,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/locationImageView"
-            android:layout_marginTop="21dp"
+            android:layout_marginTop="5dp"
             android:text="name"
             android:textColor="@color/black"
             android:textSize="24sp" />
@@ -85,9 +79,10 @@
             android:layout_alignParentBottom="true"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="0dp"
+            android:background="#FFC107"
             app:itemBackground="@android:color/transparent"
-            app:itemIconTint="@color/colorPrimary"
-            app:itemTextColor="@color/colorPrimary"
+            app:itemIconTint="@color/black"
+            app:itemTextColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -101,8 +96,11 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginTop="0dp"
+            android:background="@color/black"
+            android:gravity="center"
             android:text="@string/DetailHeader"
-            android:textSize="24sp" />
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
 
         <ImageView
             android:id="@+id/locationImageView"
@@ -112,6 +110,7 @@
             android:layout_marginTop="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            android:scaleType="fitXY"
             tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
         <TextView
@@ -121,52 +120,47 @@
             android:layout_below="@+id/nameTV"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
-            android:layout_marginStart="45dp"
-            android:layout_marginLeft="45dp"
-            android:layout_marginTop="34dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
             android:text="TextView" />
 
         <TextView
             android:id="@+id/phoneTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/addressTV"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="50dp"
-            android:layout_marginEnd="173dp"
-            android:layout_marginRight="173dp"
+            android:layout_below="@+id/distanceTV"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
             android:text="TextView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
         <Button
             android:id="@+id/websiteButton"
-            android:layout_width="308dp"
-            android:layout_height="36dp"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/phoneTV"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
-            android:layout_marginEnd="41dp"
-            android:layout_marginRight="41dp"
             android:onClick="onWebsiteClick"
             android:text="@string/WebsiteButton"
+            android:background="#2196F3"
+            android:textColor="#FFFFFF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
         <Button
             android:id="@+id/favoriteButton"
-            android:layout_width="305dp"
-            android:layout_height="33dp"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/websiteButton"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_marginStart="64dp"
-            android:layout_marginLeft="64dp"
-            android:layout_marginTop="13dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:background="#E91E63"
+            android:gravity="center"
             android:onClick="onAddFavoriteClick"
-            android:text="@string/AddFavoriteButton" />
+            android:text="@string/AddFavoriteButton"
+            android:textColor="#FFFFFF" />
     </RelativeLayout>
 
 
