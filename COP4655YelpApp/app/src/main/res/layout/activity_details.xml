@@ -67,6 +67,7 @@
             android:layout_below="@+id/locationImageView"
             android:layout_marginTop="5dp"
             android:text="name"
+            android:gravity="center"
             android:textColor="@color/black"
             android:textSize="24sp" />
 
