@@ -20,7 +20,7 @@ android {
         release {
             storeFile file("myreleasekey.keystore")
             storePassword "midnight"
-            keyAlias "MyReleaseKey"
+            keyAlias "key0"
             keyPassword "midnight"
         }
     }
