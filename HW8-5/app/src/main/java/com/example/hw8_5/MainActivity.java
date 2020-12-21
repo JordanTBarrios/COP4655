@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private String TAG = MainActivity.class.getSimpleName();
     private Context context;
 
-    private String openWeatherKey = "130ecc705ac2dd85de148abbeff2d7ff";
+    private String openWeatherKey = "";
     public static WeatherData data = new WeatherData();
 
     @Override
