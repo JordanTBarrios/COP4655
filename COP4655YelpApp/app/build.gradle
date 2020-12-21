@@ -18,7 +18,7 @@ android {
 
     signingConfigs {
         release {
-            storeFile file("myreleasekey.keystore")
+            storeFile file("myreleasekey.jks")
             storePassword "midnight"
             keyAlias "key0"
             keyPassword "midnight"
