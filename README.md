@@ -4,7 +4,7 @@
 ### Demonstration Video
 *Click the thumbnail*
 
-[![Yelp App Demonstration](https://i9.ytimg.com/vi/Ro4752zgOPA/mq3.jpg?sqp=COy0g_8F&rs=AOn4CLC36AIERKpXa_IjrwTJcZhIjMLj7Q)](https://youtu.be/Ro4752zgOPA)
+[![Yelp App Demonstration](thumbnail.png)](https://youtu.be/Ro4752zgOPA)
 
 ### Firebase App Distribution
 Want to try out the app for yourself? [Click Here](https://appdistribution.firebase.dev/i/38e54501806ab2ef "Firebase App Distribution Invite") to get the Firebase distribution invite link. (Android only)
