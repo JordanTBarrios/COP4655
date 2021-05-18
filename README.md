@@ -26,8 +26,3 @@ Want to try out the app for yourself? [Click Here](https://appdistribution.fireb
 * Show first 10 search results in a list format
 * Detailed descriptions for each business result with image
 * Favorites List associated with Google Sign In
-
-
-
----
-# HW8-5: A sample app
